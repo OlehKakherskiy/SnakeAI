@@ -51,6 +51,8 @@ public class SnakeGame {
         snakeFrame.setUndecorated(true); //hide title bar
         snakeFrame.setVisible(true);
         snakeFrame.setResizable(false);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        snakeFrame.setLocation(dim.width/2-snakeFrame.getSize().width/2, dim.height/2-snakeFrame.getSize().height/2);
 
         snakePanel = new DrawSnakeGamePanel(componentManager);
 
