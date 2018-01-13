@@ -4,6 +4,7 @@ import ua.kpi.fict.gamedev.snake.ai.bot.SnakeBot;
 import ua.kpi.fict.gamedev.snake.ai.model.*;
 
 import java.awt.*;
+import java.util.Objects;
 
 /**
  * Created by Clara. Manages game components such as the Snake, Kibble... and their interactions.
@@ -16,7 +17,26 @@ public class GameComponentManager {
     private Snake snake;
     private Score score;
 
+    private SnakeBot snakeBot;
+
     public void update() {
+        Direction direction = snakeBot.doMovement(prepareBoard(), snake.getSnakeSquares().get(0), kibble.getSquare());
+        if(Objects.nonNull(direction)) {
+            switch (direction) {
+                case LEFT:
+                    snake.snakeLeft();
+                    break;
+                case UP:
+                    snake.snakeUp();
+                    break;
+                case DOWN:
+                    snake.snakeDown();
+                    break;
+                case RIGHT:
+                    snake.snakeRight();
+                    break;
+            }
+        }
         snake.moveSnake();
 
         //Ask the snake if it is on top of the kibble
@@ -69,5 +89,9 @@ public class GameComponentManager {
 
     public Snake getSnake() {
         return snake;
+    }
+
+    public void setSnakeBot(SnakeBot snakeBot) {
+        this.snakeBot = snakeBot;
     }
 }

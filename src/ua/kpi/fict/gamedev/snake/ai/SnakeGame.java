@@ -1,10 +1,13 @@
 package ua.kpi.fict.gamedev.snake.ai;
 
+import ua.kpi.fict.gamedev.snake.ai.bot.AStarRouteBuilder;
+import ua.kpi.fict.gamedev.snake.ai.bot.SnakeBot;
 import ua.kpi.fict.gamedev.snake.ai.model.Kibble;
 import ua.kpi.fict.gamedev.snake.ai.model.Score;
 import ua.kpi.fict.gamedev.snake.ai.model.Snake;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Timer;
 
 
@@ -73,6 +76,8 @@ public class SnakeGame {
 
         componentManager = new GameComponentManager();
         snake = new Snake(xSquares, ySquares);
+        SnakeBot snakeBot = new SnakeBot(new AStarRouteBuilder());
+        componentManager.setSnakeBot(snakeBot);
         Kibble kibble = new Kibble();
 
         componentManager.addSnake(snake);
