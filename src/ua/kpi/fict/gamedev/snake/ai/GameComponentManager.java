@@ -3,7 +3,6 @@ package ua.kpi.fict.gamedev.snake.ai;
 import ua.kpi.fict.gamedev.snake.ai.bot.SnakeBot;
 import ua.kpi.fict.gamedev.snake.ai.model.*;
 
-import java.awt.*;
 import java.util.Objects;
 
 /**
@@ -21,7 +20,7 @@ public class GameComponentManager {
 
     public void update() {
         Direction direction = snakeBot.doMovement(prepareBoard(), snake.getSnakeSquares().get(0), kibble.getSquare());
-        if(Objects.nonNull(direction)) {
+        if (Objects.nonNull(direction)) {
             switch (direction) {
                 case LEFT:
                     snake.snakeLeft();
@@ -57,7 +56,7 @@ public class GameComponentManager {
     private SquareType[][] prepareBoard() {
         SquareType[][] board = new SquareType[widthCount][heightCount];
         board[kibble.getKibbleX()][kibble.getKibbleY()] = SquareType.KIBBLE;
-        snake.getSnakeSquares().forEach(square -> board[square.getX()][square.getY()] = SquareType.SNAKE);
+        snake.getSnakeSquares().stream().filter(square -> !square.isOutOfBounds(widthCount, heightCount)).forEach(square -> board[square.getX()][square.getY()] = SquareType.SNAKE);
         return board;
     }
 
