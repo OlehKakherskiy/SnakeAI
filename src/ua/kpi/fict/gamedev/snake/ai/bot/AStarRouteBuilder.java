@@ -5,8 +5,9 @@ import ua.kpi.fict.gamedev.snake.ai.model.Square;
 import ua.kpi.fict.gamedev.snake.ai.model.SquareType;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
+import static java.util.Collections.emptyList;
+import static java.util.Comparator.comparingInt;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toList;
@@ -73,8 +74,26 @@ public class AStarRouteBuilder implements RouteBuilder {
             fillSquaresToProcess(lastProcessed, kibble, squaresToLook, seenSquares, gameBoard);
         }
         List<Square> route = processRoute(lastProcessed);
+        if (!canReachKibble(kibble, route)) {
+            route = new ArrayList<>(findLongestPath(gameBoardToOccupyBoard(gameBoard, head), head, kibble));
+        }
         route.remove(0);
         return route;
+    }
+
+    private boolean canReachKibble(Square kibble, List<Square> route) {
+        return kibble.equals(route.get(route.size() - 1));
+    }
+
+    private boolean[][] gameBoardToOccupyBoard(SquareType[][] gameBoard, Square head) {
+        boolean[][] occupyBoard = new boolean[gameBoard.length][gameBoard[0].length];
+        for (int i = 0; i < gameBoard.length; i++) {
+            for (int j = 0; j < gameBoard[i].length; j++) {
+                occupyBoard[i][j] = gameBoard[i][j] == SquareType.SNAKE;
+            }
+        }
+        occupyBoard[head.getX()][head.getY()] = false;
+        return occupyBoard;
     }
 
     private void fillSquaresToProcess(CellFRate lastProcessed, Square kibble, PriorityQueue<CellFRate> squaresToLook, Set<Square> seenSquares, SquareType[][] board) {
@@ -96,5 +115,22 @@ public class AStarRouteBuilder implements RouteBuilder {
         }
         routePart.add(routeEnd.square);
         return routePart;
+    }
+
+    private List<Square> findLongestPath(boolean[][] board, Square start, Square finish) {
+        if (isNull(start) || start.isOutOfBounds(board.length, board[0].length) || board[start.getX()][start.getY()]) {
+            return emptyList();
+        }
+        List<Square> path = new ArrayList<>();
+        path.add(start);
+        board[start.getX()][start.getY()] = true;
+        if (!start.equals(finish)) {
+            path.addAll(Arrays.stream(Direction.values())
+                    .map(start::moveInDirection)
+                    .map(nextSquare -> findLongestPath(board, nextSquare, finish))
+                    .max(comparingInt(List::size))
+                    .orElse(emptyList()));
+        }
+        return path;
     }
 }
