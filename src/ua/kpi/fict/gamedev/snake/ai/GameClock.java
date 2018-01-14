@@ -14,18 +14,14 @@ public class GameClock extends TimerTask {
 
     @Override
     public void run() {
-        // This method will be called every clock tick
-
         int stage = SnakeGame.getGameStage();
 
 
         switch (stage) {
             case SnakeGame.BEFORE_GAME: {
-                //don't do anything, waiting for user to press a key to start
                 break;
             }
             case SnakeGame.DURING_GAME: {
-                //Game is running. Ask componentManager to tell components to update.
                 componentManager.update();
                 break;
             }

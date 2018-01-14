@@ -5,9 +5,7 @@ import ua.kpi.fict.gamedev.snake.ai.model.*;
 
 import java.util.Objects;
 
-/**
- * Created by Clara. Manages game components such as the Snake, Kibble... and their interactions.
- */
+
 public class GameComponentManager {
 
     private static int widthCount = SnakeGame.xPixelMaxDimension / SnakeGame.squareSize;

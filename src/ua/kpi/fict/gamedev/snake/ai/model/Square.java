@@ -2,10 +2,6 @@ package ua.kpi.fict.gamedev.snake.ai.model;
 
 import java.util.Objects;
 
-/**
- * Created by clara on 3/31/16.
- */
-
 // Convenient class to hold x and y value. Represents a square in the game's grid - not pixels.
 public class Square {
 

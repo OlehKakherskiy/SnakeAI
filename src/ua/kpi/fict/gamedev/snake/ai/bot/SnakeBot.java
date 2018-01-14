@@ -25,9 +25,6 @@ public class SnakeBot {
     public Direction doMovement(SquareType[][] gameBoard, Square head, Square kibble) {
         System.out.println("head = " + head);
         System.out.println("kibble = " + kibble);
-//        if (isNull(route) || route.isEmpty()) {
-//            route = routeBuilder.buildRoute(gameBoard, head, kibble);
-//        }
         route = routeBuilder.buildRoute(gameBoard, head, kibble);
         System.out.println("route = " + Arrays.toString(route.toArray()));
         return route.isEmpty() ? null : toDirection(head, route.remove(FIRST_ROUTE_POINT));

@@ -92,7 +92,9 @@ public class AStarRouteBuilder implements RouteBuilder {
                 occupyBoard[i][j] = gameBoard[i][j] == SquareType.SNAKE;
             }
         }
-        occupyBoard[head.getX()][head.getY()] = false;
+        if(!head.isOutOfBounds(gameBoard.length, gameBoard[0].length)) {
+            occupyBoard[head.getX()][head.getY()] = false;
+        }
         return occupyBoard;
     }
 
