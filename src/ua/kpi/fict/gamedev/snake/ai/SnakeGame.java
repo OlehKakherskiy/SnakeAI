@@ -31,6 +31,13 @@ public class SnakeGame {
     private static int gameStage = BEFORE_GAME;
 
     public static void main(String[] args) {
+        try {
+            if (args.length != 0){
+                clockInterval = Long.parseLong(args[0]);
+            }
+        }catch(Exception e){
+            System.out.println("Cannot parse argument to long");
+        }
         SwingUtilities.invokeLater(() -> {
             try {
                 initializeGame();
